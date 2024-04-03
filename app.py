@@ -16,14 +16,14 @@ class Post(db.Model):
     password = db.Column(db.String(100))
     mood = db.Column(db.String(20))
 
-
+g
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     content = db.Column(db.Text)
     author = db.Column(db.String(100))
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-
+    comment_pw = db.Column(db.Integer, nullable=False)
 with app.app_context():
     db.create_all()
 
