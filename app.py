@@ -20,12 +20,12 @@ class Post(db.Model):
 with app.app_context():
     db.create_all()
 
-
+# Modal
 @app.route('/')
-def index():
+def main():
     # 여기에 데이터베이스에서 게시글을 조회하는 코드를 추가할 수 있습니다.
     posts = Post.query.all()
-    return render_template('index.html', posts=posts)
+    return render_template('jjookkumi.html', posts=posts)
 
 
 @app.route('/write_post', methods=['POST'])
@@ -42,6 +42,12 @@ def write_post():
     db.session.commit()
 
     return redirect(url_for('index'))
+
+#reply
+
+@app.route("/reply/")
+def reply():
+    return render_template('suminreply2.html')
 
 
 if __name__ == '__main__':

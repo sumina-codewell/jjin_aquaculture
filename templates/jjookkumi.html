@@ -13,6 +13,76 @@
             font-style: normal;
         }
 
+        /* 폰트 추가 */
+        @font-face {
+            font-family: 'HakgyoansimWoojuR';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/HakgyoansimWoojuR.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* 폰트 추가 */
+        @font-face {
+            font-family: 'TTHakgyoansimMulgyeolB';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimMulgyeolB.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-image: url('/Users/kyte/Downloads/ppppp.jpg');
+            background-size: cover;
+            /* 이미지를 화면에 맞게 조정 */
+            background-repeat: no-repeat;
+            /* 이미지 반복 없음 */
+            background-position: center;
+            /* 이미지를 가운데 정렬 */
+            font-family: 'TTHakgyoansimMulgyeolB';
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%;
+            border-radius: 10px;
+            font-family: 'TTHakgyoansimMulgyeolB';
+            /* 추가한 폰트 적용 */
+            display: flex;
+            /* Flexbox를 사용하여 내용 가운데 정렬 */
+            flex-direction: column;
+            /* 세로 방향으로 요소를 배치 */
+            align-items: center;
+            /* 수직 방향으로 가운데 정렬 */
+        }
+
+        /* 닫기 버튼 스타일 */
+        .close {
+            color: #f90707;
+            float: right;
+            font-size: 60px;
+            font-weight: bold;
+        }
+
+
+        .close:hover,
+        .close:focus {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
         @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
         
         .background-banner {
@@ -45,53 +115,49 @@
             <h1 class="display-5 text-body-emphasis">쭈꾸미 양식장</h1>
         </div>
         <div class="col-lg-6 mx-auto">
-            <div class="row-cols-1 row-cols-md-5 d-block mx-auto w-75 pb-5 text-end" style="margin-left: 35px;">
+            <div class="row-cols-1 row-cols-md-5 d-block mx-auto w-25 pb-5 text-end" style="margin-left: 5px;">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button onclick="openModal()" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     글 작성
                 </button>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+                crossorigin="anonymous"></script> 
             </div>
         </div>
     
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">최애 음악</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{url_for('music_create)'}}" method="GET">
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">유저</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" name="username">
-                                <div id="emailHelp" class="form-text">사용자(추천인)의 이름을 넣어주세요.</div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">노래 제목</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" name="title">
-                                <div id="emailHelp" class="form-text">좋아하는 노래 제목을 넣어주세요.</div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">가수</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" name="artist">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">앨범 커버URL</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" name="img_url">
-                            </div>
-                            <button type="submit" class="btn btn-danger">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+    <!-- 모달 -->
+    <div id="myModal" class="modal">
+        <!-- 모달 내용 -->
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>게시글 작성</h2>
+            <form action="">
+                <label for="nickname">닉네임:</label>
+                <input type="text" id="nickname" name="nickname"><br><br>   
+                <label for="title">제목:</label>
+                <input type="text" id="title" name="title"><br><br>
+                <label for="content">내용:</label><br>
+                <textarea id="content" name="content" rows="4" cols="50"></textarea><br><br>
+                <label for="mood">오늘의 기분:</label>
+                <select id="mood" name="mood" style="font-family: 'HakgyoansimWoojuR';">
+                    <option value="happy">HAPPY😊</option>
+                    <option value="sad">SAD😢</option>
+                    <option value="angry">ANGRY😠</option>
+                    <option value="scared">SCARED😨</option>
+                    <option value="excited">EXCITED😄</option>
+                </select><br><br>
+                <label for="image">이미지 업로드:</label>
+                <input type="file" id="image" name="image" style="font-family: 'HakgyoansimWoojuR';"><br><br>
+
+                <button type="button" class="btn btn-outline-primary d-block mx-auto" onclick="submitForm()">게시</button>
+            </form>
         </div>
+    </div>
     
         <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto w-75 pb-5">
             <div class="col">
-                <a class="detail-link" href="https://ud.floor.line.games/kr/bbsCmn/detail/1712025302169025939">
+                <a class="detail-link" href="{{ url_for('reply') }}">
                     <div class="card h-100">
                         <div class="card-body">
                             <h5 class="card-title">글 제목4</h5>
@@ -198,9 +264,26 @@
         </footer>
       </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-        crossorigin="anonymous"></script>
+      <script>
+        // 모달 창 열기
+        function openModal() {
+            document.getElementById("myModal").style.display = "block";
+        }
+    
+        // 모달 창 닫기
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+    
+        // 사용자가 모달 외부를 클릭할 때 모달 창이 닫히도록
+        window.onclick = function (event) {
+            var modal = document.getElementById("myModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+    </script>
 </body>
 
 </html>
