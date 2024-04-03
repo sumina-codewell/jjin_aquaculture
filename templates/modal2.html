@@ -1,0 +1,51 @@
+<!-- 모달 -->
+<div id="myModal" class="modal">
+    <!-- 모달 내용 -->
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>게시글 작성</h2>
+        <form action="">
+            <label for="nickname">닉네임:</label>
+            <input type="text" id="nickname" name="nickname"><br><br>
+            <label for="title">제목:</label>
+            <input type="text" id="title" name="title"><br><br>
+            <label for="content">내용:</label><br>
+            <textarea id="content" name="content" rows="4" cols="50"></textarea><br><br>
+            <label for="mood">오늘의 기분:</label>
+            <select id="mood" name="mood">
+                <option value="happy">HAPPY</option>
+                <option value="sad">SAD</option>
+                <option value="angry">ANGRY</option>
+                <option value="scared">SCARED</option>
+                <option value="excited">EXCITED</option>
+            </select><br><br>
+            <label for="image">이미지 업로드:</label>
+            <input type="file" id="image" name="image"><br><br>
+            <button type="submit">게시</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // 모달 창 열기
+    function openModal() {
+        document.getElementById("myModal").style.display = "block";
+    }
+
+    // 모달 창 닫기
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    // 사용자가 모달 외부를 클릭할 때 모달 창이 닫히도록
+    window.onclick = function (event) {
+        var modal = document.getElementById("myModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+
+</html>
