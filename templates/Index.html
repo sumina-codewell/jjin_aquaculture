@@ -113,8 +113,9 @@
                     <option value="excited">EXCITED😄</option>
                 </select><br><br>
                 <label for="image">이미지 업로드:</label>
-                <input type="file" id="image" name="image" style="font-family: 'HakgyoansimWoojuR';"><br><br>
-
+                <input type="file" id="image" name="image" onchange="showFileName()"
+                    style="font-family: 'HakgyoansimWoojuR';"><br><br>
+                <div id="file-name"></div><br><br>
                 <button type="button" class="btn btn-outline-primary d-block mx-auto" onclick="submitForm()">게시</button>
 
 
@@ -124,6 +125,12 @@
     </div>
 
     <script>
+
+        // 파일 이름 표시
+        function showFileName() {
+            var fileName = document.getElementById("image").value.split("\\").pop();
+            document.getElementById("file-name").innerHTML = "파일 이름: " + fileName;
+        }
         // 게시 버튼 클릭 시 실행되는 함수
         function submitForm() {
             // 여기에 게시 버튼을 눌렀을 때 수행할 동작을 작성하세요
