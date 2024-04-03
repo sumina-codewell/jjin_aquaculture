@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시물 댓글</title>
+    <!-- 외부 CSS 파일을 링크하여 스타일 적용 -->
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+        @font-face {
+            font-family: 'TTHakgyoansimKossuyeomR';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimKossuyeomR.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'HakgyoansimWoojuR';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/HakgyoansimWoojuR.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .post-title {
+            padding: 15px;
+            color: rgb(198, 15, 15);
+            font-size: 20px;
+            font-family: 'TTHakgyoansimKossuyeomR', sans-serif;
+        }
+
+        .title {
+            padding: 15px;
+            height: 50px;
+            font-size: 20px;
+            font-family: 'TTHakgyoansimKossuyeomR', sans-serif;
+        }
+
+        .board_wrap {
+            width: 1000px;
+            margin: 100px auto;
+        }
+
+        .info {
+            display: flex;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            justify-content: space-between;
+            font-size: 15px;
+            font-family: 'HakgyoansimWoojuR', sans-serif;
+        }
+
+        .info dl {
+            flex: 1;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .info dt {
+            font-weight: bold;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .info dd {
+            margin-top: 5px;
+        }
+
+        .cont {
+            padding: 15px;
+            font-family: 'HakgyoansimWoojuR', sans-serif;
+        }
+
+        .bt_wrap {
+            height: 30px;
+            align-items: center;
+            display: flex;
+            justify-content: space-evenly;
+            font-family: 'HakgyoansimWoojuR', sans-serif;
+        }
+
+        .comments {
+            padding: 10px;
+            font-size: 15px;
+            font-family: 'HakgyoansimWoojuR', sans-serif;
+        }
+
+        /* 기본 댓글 입력창 스타일 */
+        #commentContent {
+            width: calc(100% - 20px);
+            /* 부모 요소의 넓이에서 여백을 제외한 크기로 설정 */
+            height: 50px;
+            /* 높이 고정 */
+            resize: vertical;
+            /* 사용자가 크기 조정 가능하도록 설정 */
+            font-family: 'HakgyoansimWoojuR', sans-serif;
+
+        }
+
+        /* 화면 너비가 768px 이하일 때 */
+        @media screen and (max-width: 768px) {
+            #commentContent {
+                height: 50px;
+                /* 댓글 입력창의 높이를 줄임 */
+            }
+        }
+
+        /* 화면 너비가 576px 이하일 때 */
+        @media screen and (max-width: 576px) {
+            #commentContent {
+                height: 50px;
+                /* 댓글 입력창의 높이를 더 줄임 */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="post">
+        <h1 class="post-title">쭈꾸미 양식장</h1>
+        <!-- <p class="post-content"><iframe src="view.html" width="100%" height="500px" frameborder="0"></iframe></p> -->
+    </div>
+    <div class="board_view_wrap">
+        <div class="board_view">
+            <div class="title">
+                글 제목이 들어갑니다.
+            </div>
+            <div class="info">
+                <dl>
+                    <dt>번호</dt>
+                    <dd>1</dd>
+                </dl>
+                <dl>
+                    <dt>글쓴이</dt>
+                    <dd>김이름</dd>
+                </dl>
+                <dl>
+                    <dt>작성일</dt>
+                    <dd>2021.1.16</dd>
+                </dl>
+                <dl>
+                    <dt>조회</dt>
+                    <dd>33</dd>
+                </dl>
+            </div>
+            <div class="cont">
+                글 내용이 들어갑니다<br>
+                글 내용이 들어갑니다<br>
+                글 내용이 들어갑니다<br>
+                글 내용이 들어갑니다<br>
+                글 내용이 들어갑니다<br>
+                글 내용이 들어갑니다<br>
+                글 내용이 들어갑니다<br>
+                글 내용이 들어갑니다
+            </div>
+        </div>
+        <div class="bt_wrap">
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <button type="button" class="btn btn-warning"><a href="list.html" class="on">목록</a></button>
+                <button type="button" class="btn btn-warning"><a href="edit.html">수정</a></button>
+            </div>
+        </div>
+    </div>
+    <div class="comments">
+        <h5>댓글</h5>
+        <ul id="commentList">
+            <!-- 댓글 목록은 JavaScript로 동적으로 생성됩니다. -->
+        </ul>
+        <form id="commentForm">
+            <input type="text" id="commentNickname" placeholder="닉네임">
+            <input type="password" id="commentPassword" placeholder="비밀번호"><br>
+            <textarea id="commentContent" placeholder="댓글을 입력하세요"></textarea><br>
+            <button type="submit">댓글 작성</button>
+        </form>
+    </div>
+    <!-- 외부 JavaScript 파일을 링크하여 댓글 기능 구현 -->
+    <script src="js/reply.js"></script>
+</body>
+
+</html>
+
+</html>
