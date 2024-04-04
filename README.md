@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=37B1FF&height=200&section=header&text=쭈꾸미%20양식장&fontColor=FFFFFF&fontAlign=&fontSize=50)
+![header](https://capsule-render.vercel.app/api?type=waving&color=37B1FF&height=200&section=header&text=쭈꾸미%20양식장&fontColor=FFFFFF&fontAlign=70&fontSize=50)
 
 ## 익명성을 보장하는 게시판 개발
 
@@ -45,7 +45,7 @@ __구현 기능__
   
   :arrow_forward: 튜터님께 도움 요청 및 팀원 전체가 뛰어들어 집중 코딩.
 
-- 게시글&댓글CRUD 구현
+- 게시글&댓글 CRUD 구현
   
   :arrow_forward: 
 
