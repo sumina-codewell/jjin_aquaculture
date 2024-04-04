@@ -4,7 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import datetime
 from werkzeug.utils import secure_filename
-import unicodedata
 
 #이미지 업로드하려면 이거 써야됨.
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'image')
@@ -42,6 +41,7 @@ class Article(db.Model):
     content = db.Column(db.Text)
     mood = db.Column(db.String(20))
     image_filename = db.Column(db.String(100), nullable=True)
+    article_pw = db.Column(db.String(100), nullable=False)
     comments = db.relationship('Comment', backref='article', lazy=True) # 게시글과 댓글의 관계
 
 # 댓글 모델
@@ -71,6 +71,7 @@ def write_article():
     article_content = request.form['content']
     mood_emoji = request.form['mood']
     image = request.files['image']
+    article_pw = request.form['pw']
 
     # 기존 게시글 처리 로직
     if image and allowed_file(image.filename):
@@ -78,11 +79,11 @@ def write_article():
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         image.save(file_path)
             # 이미지 파일명을 데이터베이스에 저장
-        new_article = Article(nickname = anonymous_nickname, title=article_title, content=article_content, mood=mood_emoji, image_filename=filename)
+        new_article = Article(nickname = anonymous_nickname, title=article_title, content=article_content, mood=mood_emoji, image_filename=filename, article_pw=article_pw)
     else:
         # 이미지 없이 게시글 처리 로직
         new_article = Article(nickname=anonymous_nickname, title=article_title,
-                    content=article_content, mood=mood_emoji)
+                    content=article_content, mood=mood_emoji, article_pw=article_pw)
 
     db.session.add(new_article)
     db.session.commit()
@@ -95,6 +96,56 @@ def article_detail(article_id):
     article = Article.query.get_or_404(article_id)
     return render_template('article_detail.html', article=article)
 
+# 게시글 수정 라우트
+@app.route('/edit_article', methods=['POST'])
+def edit_article():
+    data = request.json  # JSON 형식의 데이터를 받아옴
+    article_id = data['article_id']
+    article_pw = data['article_pw']
+    
+    # 게시글 정보 조회
+    article = Article.query.get_or_404(article_id)
+    
+    # 게시글 비밀번호 확인
+    if article.article_pw != article_pw:
+        return jsonify({'error': '잘못된 비밀번호입니다.'}), 403
+
+    # 게시글 내용 업데이트
+    article.title = data.get('title', article.title)
+    article.content = data.get('content', article.content)
+    article.nickname = data.get('nickname', article.nickname)
+    article.mood = data.get('mood', article.mood)
+
+    # 게시글 이미지 업데이트
+    new_image = request.files.get('image')  # 이미지가 제공되지 않은 경우 None 반환
+    if new_image:
+        if allowed_file(new_image.filename):
+            filename = secure_filename_with_unicode(new_image.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            new_image.save(file_path)
+            article.image_filename = filename
+        else:
+            return jsonify({'error': '올바르지 않은 파일 형식입니다.'}), 400
+
+    db.session.commit()
+    return jsonify({'message': '게시글이 성공적으로 수정되었습니다.'}), 200
+
+# 게시글 삭제 라우트
+@app.route('/delete_article/<int:article_id>', methods=['POST'])
+def delete_article(article_id):
+    article = Article.query.get_or_404(article_id)
+    article_pw = request.form['article_pw']
+    # 비밀번호가 일치할 때만 게시글 삭제를 허용
+    if article.article_pw == article_pw:
+        # 게시글에 속한 댓글들도 함께 삭제
+        for comment in article.comments:
+            db.session.delete(comment)
+        db.session.delete(article)
+        db.session.commit()
+        return redirect(url_for('main'))
+    else:
+        return "<script>alert('잘못된 비밀번호입니다.'); window.location.href = document.referrer;</script>"
+    
 # 댓글 작성 라우트
 @app.route('/write_comment/<int:article_id>', methods=['POST'])
 def write_comment(article_id):
