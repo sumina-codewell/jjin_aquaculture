@@ -1,102 +1,235 @@
-from flask import Flask, render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename
-from flask_sqlalchemy import SQLAlchemy
-import os
+<!DOCTYPE html>
+<html lang="ko">
 
-#이미지 업로드하려면 이거 써야됨.
-UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'image')
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JJOOGGUMI YANGSIKJANG</title>
+    <style>
+        @font-face {
+            font-family: 'TTHakgyoansimKossuyeomR';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimKossuyeomR.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB
+        /* 폰트 추가 */
+        @font-face {
+            font-family: 'HakgyoansimWoojuR';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/HakgyoansimWoojuR.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-# 폴더 없으면 생성함. 
-if not os.path.exists(app.config['UPLOAD_FOLDER']):
-    os.makedirs(app.config['UPLOAD_FOLDER'])
-    
-basedir = os.path.abspath(os.path.dirname(__file__)) #pwd 역할
-print(basedir)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
-    os.path.join(basedir, 'jkmi.db')
-db = SQLAlchemy(app)
+        /* 폰트 추가 */
+        @font-face {
+            font-family: 'TTHakgyoansimMulgyeolB';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimMulgyeolB.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
 
-def allowed_file(filename):
-    return '.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+        /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-image: url('https://img.freepik.com/free-vector/under-the-sea-background-for-conference_23-2148657197.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1711929600&semt=ais');
+            background-size: cover;
+            /* 이미지를 화면에 맞게 조정 */
+            background-repeat: no-repeat;
+            /* 이미지 반복 없음 */
+            background-position: center;
+            /* 이미지를 가운데 정렬 */
+            font-family: 'TTHakgyoansimMulgyeolB';
+        }
 
-# Method POST 방식과 명칭 헷갈림 지양함. 
-class Article(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nickname = db.Column(db.String(100))
-    title = db.Column(db.String(50))
-    content = db.Column(db.Text)
-    mood = db.Column(db.String(20))
-    image_filename = db.Column(db.String(100), nullable=True)
-    comments = db.relationship('Comment', backref='article', lazy=True) # 게시글과 댓글의 관계
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 10%;
+            border-radius: 10px;
+            font-family: 'TTHakgyoansimMulgyeolB';
+            background-image: url('https://img.freepik.com/free-vector/under-the-sea-background-for-conference_23-2148657197.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1711929600&semt=ais');
+            background-size: cover;
+            /* 추가한 폰트 적용 */
+            display: flex;
+            /* Flexbox를 사용하여 내용 가운데 정렬 */
+            flex-direction: column;
+            /* 세로 방향으로 요소를 배치 */
+            align-items: center;
+            /* 수직 방향으로 가운데 정렬 */
+        }
 
-# 댓글 모델
-class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable=False)
-    content = db.Column(db.Text)
-    author = db.Column(db.String(100))
-    created_at = db.Column(db.DateTime)
-    comment_pw = db.Column(db.Integer, nullable=False)
+        /* 닉네임과 제목 상자의 너비를 맞추기 위한 스타일 */
+        label {
+            width: 100px;
+            /* 라벨의 너비를 100px로 설정 */
+            display: inline-block;
+            /* 인라인 블록 요소로 표시하여 다른 요소와 수평 정렬 */
+            text-align: right;
+            /* 텍스트를 오른쪽 정렬 */
+            margin-right: 10px;
+            /* 오른쪽 마진 추가 */
+        }
 
-
-with app.app_context():
-    db.create_all()
-
-# 게시글 및 댓글 조회 라우트(Modal)
-@app.route('/')
-def main():
-    # 여기에 데이터베이스에서 게시글을 조회하는 코드를 추가할 수 있습니다.
-    articles = Article.query.all()
-    return render_template('jjookkumi.html', posts=articles)
-
-# 게시글 작성 라우트
-@app.route('/write_article', methods=['POST'])
-def write_article():
-    anonymous_nickname = request.form['nickname']
-    article_title = request.form['title']
-    article_content = request.form['content']
-    mood_emoji = request.form['mood']
-    image = request.files['image']
-
-    # 기존 게시글 처리 로직
-    if image and allowed_file(image.filename):
-        filename = secure_filename(image.filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        image.save(file_path)
-            # 이미지 파일명을 데이터베이스에 저장
-        new_article = Article(nickname = anonymous_nickname, title=article_title, content=article_content, mood=mood_emoji, image_filename=filename)
-    else:
-        # 이미지 없이 게시글 처리 로직
-        new_article = Article(nickname=anonymous_nickname, title=article_title,
-                    content=article_content, mood=mood_emoji)
-
-    db.session.add(new_article)
-    db.session.commit()
-
-    return redirect(url_for('main'))
-
-# 댓글 작성 라우트
-@app.route('/write_comment/<int:post_id>', methods=['POST'])
-def write_comment(post_id):
-    post = Article.query.get_or_404(post_id)
-    comment_content = request.form['comment_content']
-    comment_author = request.form['comment_author']
-    new_comment = Comment(content=comment_content, author=comment_author, post=post)
-    db.session.add(new_comment)
-    db.session.commit()
-    return redirect(url_for('main'))
-
-#reply 페이지 이동 라우트
-@app.route("/reply/")
-def reply():
-    return render_template('suminreply2.html')
+        /* 닫기 버튼 스타일 */
+        .close {
+            color: #f90707;
+            float: right;
+            font-size: 60px;
+            font-weight: bold;
+        }
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+        .close:hover,
+        .close:focus {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+        @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
+
+        .background-banner {
+            background-image: linear-gradient(45deg,
+                    rgb(51 43 43 / 30%),
+                    rgb(20 19 20 / 20%)), url("https://img.freepik.com/free-vector/under-the-sea-background-for-conference_23-2148657197.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1711929600&semt=ais");
+            max-height: 100%;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'TTHakgyoansimKossuyeomR'
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: start;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+</head>
+
+<body data-bs-theme="primary">
+    <div class="background-banner">
+
+        <div class="px-3 py-5 my-8 text-center">
+            <h1 class="display-5 text-body-emphasis">쭈꾸미 양식장</h1>
+        </div>
+        <div class="col-lg-6 mx-auto">
+            <div class="row-cols-1 row-cols-md-5 d-block mx-auto w-25 pb-5 text-end" style="margin-left: 5px;">
+                <!-- Button trigger modal -->
+                <button onclick="openModal()" type="button" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+                    글 작성
+                </button>
+            </div>
+        </div>
+
+        <!-- 모달 -->
+        <div id="myModal" class="modal">
+            <!-- 모달 내용 -->
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>게시글 작성</h2>
+                <form action="/write_article", method="POST" enctype="multipart/form-data">
+                    <label for="nickname">닉네임:</label>
+                    <input type="text" id="nickname" name="nickname"><br><br>
+                    <label for="title">제목:</label>
+                    <input type="text" id="title" name="title"><br><br>
+                    <label for="content">내용:</label><br>
+                    <textarea id="content" name="content" rows="4" cols="50"></textarea><br><br>
+                    <label for="mood">오늘의 기분:</label>
+                    <select id="mood" name="mood" style="font-family: 'HakgyoansimWoojuR';">
+                        <option value="happy">HAPPY😊</option>
+                        <option value="sad">SAD😢</option>
+                        <option value="angry">ANGRY😠</option>
+                        <option value="scared">SCARED😨</option>
+                        <option value="excited">EXCITED😄</option>
+                    </select><br><br>
+                    <label for="image">이미지 업로드:</label>
+                    <input type="file" id="image" name="image" style="font-family: 'HakgyoansimWoojuR';"><br><br>
+
+                    <button type="submit" class="btn btn-outline-primary d-block mx-auto"
+                        onclick="submitForm()">게시</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto w-75 pb-5">
+            {% for post in posts %}
+                <div class="col">
+                    <div class="card h-100">
+                        <!-- 이미지 표시 -->
+                        {% if post.image_filename %}
+                        <!-- 이미지 파일이 업로드 폴더에 저장된 경우 -->
+                            <img src="{{ url_for('static', filename='image/' + post.image_filename) }}" class="card-img-top" alt="...">
+                            <!-- 'uploads'는 업로드된 이미지가 저장된 폴더의 이름입니다. 실제 경로에 맞게 수정하세요. -->
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.content }}</p>
+                            <p class="card-text"><small class="text-muted">닉네임: {{ post.nickname }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    <div class="container">
+        <footer>
+            <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+                <p>© 2023 Company, Inc. All rights reserved.</p>
+                <ul class="list-unstyled d-flex">
+                    <li class="ms-3"><a class="link-body-emphasis" href="https://www.youtube.com/@SpartaCodingClub"><i
+                                class="bi bi-youtube"></i></a></li>
+                    <li class="ms-3"><a class="link-body-emphasis" href="https://www.instagram.com/spartacodingclub/"><i
+                                class="bi bi-instagram"></i></a></li>
+                    <li class="ms-3"><a class="link-body-emphasis" href="https://spartacodingclub.kr/blog"><i
+                                class="bi bi-postcard"></i></a></li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 게시 버튼 클릭 시 실행되는 함수
+        function submitForm() {
+            // 여기에 게시 버튼을 눌렀을 때 수행할 동작을 작성하세요
+            alert('게시되었습니다!');
+            closeModal(); // 모달 닫기
+        }
+
+        // 모달 창 열기
+        function openModal() {
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        // 모달 창 닫기
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        // 사용자가 모달 외부를 클릭할 때 모달 창이 닫히도록
+        window.onclick = function (event) {
+            var modal = document.getElementById("myModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+
+</html>
