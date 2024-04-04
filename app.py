@@ -23,7 +23,7 @@ db = SQLAlchemy(app)
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Method POST 방식과 명칭 헷갈림 지양함. 
 class Article(db.Model):
