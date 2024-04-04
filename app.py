@@ -35,7 +35,7 @@ with app.app_context():
 def main():
     # 여기에 데이터베이스에서 게시글을 조회하는 코드를 추가할 수 있습니다.
     posts = Post.query.all()
-    return render_template('jjookkumi.html', posts=posts)
+    return render_template('jjookkumi.html', post=posts)
 
 # 게시글작성 라우트
 @app.route('/write_post', methods=['POST'])
