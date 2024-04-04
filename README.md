@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=#3595FF&height=300&section=header&text=쭈꾸미%20양식장&fontSize=90)
+![header](https://capsule-render.vercel.app/api?type=waving&color=_hexcode#3595FF&height=600&section=header&text="쭈꾸미%20양식장"&fontSize=90)
 # 쭈꾸미 양식장
 
 ## 익명성을 보장하는 게시판 개발
