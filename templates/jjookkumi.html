@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<html lang="en">
-=======
 <html lang="ko">
->>>>>>> f880749cdbae063764ca503320e563eead762421
 
 <head>
     <meta charset="utf-8">
@@ -148,11 +144,7 @@
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
                 <h2>게시글 작성</h2>
-<<<<<<< HEAD
-                <form method="post" action="{{url_for('write_post')}}">  
-=======
                 <form action="/write_article", method="POST" enctype="multipart/form-data">
->>>>>>> f880749cdbae063764ca503320e563eead762421
                     <label for="nickname">닉네임:</label>
                     <input type="text" id="nickname" name="nickname"><br><br>
                     <label for="title">제목:</label>
@@ -170,115 +162,13 @@
                     <label for="image">이미지 업로드:</label>
                     <input type="file" id="image" name="image" style="font-family: 'HakgyoansimWoojuR';"><br><br>
 
-<<<<<<< HEAD
-                    <button  class="btn btn-outline-primary d-block mx-auto"
-=======
                     <button type="submit" class="btn btn-outline-primary d-block mx-auto"
->>>>>>> f880749cdbae063764ca503320e563eead762421
                         onclick="submitForm()">게시</button>
                 </form>
             </div>
         </div>
 
         <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto w-75 pb-5">
-<<<<<<< HEAD
-            <div class="col">
-                <a class="detail-link" href="{{ url_for('reply') }}">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">글 제목4</h5>
-                            <div class="user-info">
-                                <div class="user-img">
-                                    <span>
-                                        <img src="jjookkumi.jpg" style="width:50px; height:50px; border-radius:60%;"
-                                            class="card-img-bottom" alt="...">
-                                    </span>
-                                </div>
-                                <div class="user-nick my-auto mx-auto w-75 pb-50">
-                                    <span>
-                                        쭈꾸미4
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <img src="https://www.urbanbrush.net/web/wp-content/uploads/edd/2020/01/urbanbrush-20200121040404359190.jpg"
-                            class="card-img-bottom" alt="...">
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a class="all-link bbs-detail-link"
-                    href="https://ud.floor.line.games/kr/bbsCmn/detail/1712025302169025939"
-                    article-id="1712025302169025939" data-status="NORMAL" data-bbs-id="community_kr">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">글 제목3</h5>
-                            <div class="user-info">
-                                <div class="user-img">
-                                    <span>
-                                        <img src="jjookkumi.jpg" style="width:50px; height:50px; border-radius:60%;"
-                                            class="card-img-bottom" alt="...">
-                                    </span>
-                                </div>
-                                <div class="user-nick my-auto mx-auto w-75 pb-50">
-                                    <span>
-                                        쭈꾸미3
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <img src="https://www.urbanbrush.net/web/wp-content/uploads/edd/2020/01/urbanbrush-20200121040404359190.jpg"
-                            class="card-img-bottom" alt="...">
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">글 제목2</h5>
-                        <div class="user-info">
-                            <div class="user-img">
-                                <span>
-                                    <img src="jjookkumi.jpg" style="width:50px; height:50px; border-radius:60%;"
-                                        class="card-img-bottom" alt="...">
-                                </span>
-                            </div>
-                            <div class="user-nick my-auto mx-auto w-75 pb-50">
-                                <span>
-                                    쭈꾸미2
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <img src="https://www.urbanbrush.net/web/wp-content/uploads/edd/2020/01/urbanbrush-20200121040404359190.jpg"
-                        class="card-img-bottom" alt="...">
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">글 제목1</h5>
-                        <div class="user-info">
-                            <div class="user-img">
-                                <span>
-                                    <img src="jjookkumi.jpg" style="width:50px; height:50px; border-radius:60%;"
-                                        class="card-img-bottom" alt="...">
-                                </span>
-                            </div>
-                            <div class="user-nick my-auto mx-auto w-75 pb-50">
-                                <span>
-                                    쭈꾸미1
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <img src="https://www.urbanbrush.net/web/wp-content/uploads/edd/2020/01/urbanbrush-20200121040404359190.jpg"
-                        class="card-img-bottom" alt="...">
-                </div>
-            </div>
-        </div>
-    </div>
-=======
             {% for post in posts %}
                 <div class="col">
                     <div class="card h-100">
@@ -297,7 +187,6 @@
                 </div>
             {% endfor %}
         </div>
->>>>>>> f880749cdbae063764ca503320e563eead762421
 
     <div class="container">
         <footer>
