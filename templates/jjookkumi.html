@@ -144,7 +144,7 @@
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
                 <h2>게시글 작성</h2>
-                <form action="">
+                <form method="post" action="{{url_for('write_post')}}">  
                     <label for="nickname">닉네임:</label>
                     <input type="text" id="nickname" name="nickname"><br><br>
                     <label for="title">제목:</label>
@@ -162,7 +162,7 @@
                     <label for="image">이미지 업로드:</label>
                     <input type="file" id="image" name="image" style="font-family: 'HakgyoansimWoojuR';"><br><br>
 
-                    <button type="button" class="btn btn-outline-primary d-block mx-auto"
+                    <button  class="btn btn-outline-primary d-block mx-auto"
                         onclick="submitForm()">게시</button>
                 </form>
             </div>

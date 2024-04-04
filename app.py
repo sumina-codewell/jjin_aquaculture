@@ -51,7 +51,7 @@ def write_post():
     db.session.add(new_post)
     db.session.commit()
 
-    return redirect(url_for('index'))  #이 부분일까요? 
+    return redirect(url_for('main'))  #이 부분일까요? 
 
 # 댓글 작성 라우트
 @app.route('/write_comment/<int:post_id>', methods=['POST'])
