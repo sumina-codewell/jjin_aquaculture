@@ -1,6 +1,6 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=37B1FF&height=200&section=header&text=쭈꾸미%20양식장&fontColor=FFFFFF&fontAlign=45&fontSize=50)
+![header](https://capsule-render.vercel.app/api?type=waving&color=37B1FF&height=200&section=header&text=쭈꾸미%20양식장&fontColor=FFFFFF&fontAlign=50&fontSize=50)
 
-## 익명성을 보장하는 게시판 개발
+## 익명성을 보장하는 게시판 개발:octopus:
 
 
 :calendar: __개발기간__
