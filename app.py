@@ -15,6 +15,16 @@ class Post(db.Model):
     title = db.Column(db.String(100))
     content = db.Column(db.Text)
     mood = db.Column(db.String(20))
+    comments = db.relationship('Comment', backref='post', lazy=True) # 게시글과 댓글의 관계
+
+# 댓글 모델
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    content = db.Column(db.Text)
+    author = db.Column(db.String(100))
+    created_at = db.Column(db.DateTime)
+    comment_pw = db.Column(db.Integer, nullable=False)
     comments = db.relationship(
         'Comment', backref='post', lazy=True)  # 게시글과 댓글의 관계
 
@@ -34,6 +44,7 @@ with app.app_context():
     db.create_all()
 
 # 게시글 및 댓글 조회 라우트(Modal)
+# 게시글 및 댓글 조회 라우트(Modal)
 
 
 @app.route('/')
@@ -41,10 +52,11 @@ def main():
     # 여기에 데이터베이스에서 게시글을 조회하는 코드를 추가할 수 있습니다.
     posts = Post.query.all()
     return render_template('jjookkumi.html', posts=posts)
+    return render_template('jjookkumi.html', posts=posts)
 
 # 게시글작성 라우트
 
-
+# 게시글작성 라우트
 @app.route('/write_post', methods=['POST'])
 def write_post():
     anonymous_nickname = request.form['nickname']
