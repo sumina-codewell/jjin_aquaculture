@@ -1,14 +1,14 @@
 ![header](https://capsule-render.vercel.app/api?type=waving&color=37B1FF&height=200&section=header&text=쭈꾸미%20양식장&fontColor=FFFFFF&fontAlign=50&fontSize=50)
 
-## 익명성을 보장하는 게시판 개발:octopus:
+## 익명성을 보장하는 게시판 개발 :octopus:
 
 
 :calendar: __개발기간__
-- 2024. 4. 1 ~ 2024. 4. 5 (5일)
+- 2024/04/01 ~ 2024/04/05 (5일)
 
 
 :busts_in_silhouette: __포지션__
-- 메인 페이지 B/F : 신연우 [
+- 메인 페이지 B/F : 신연우
 - 작성 페이지 B/F : 이은규
 - 상세 페이지 B/F : 용석민, 황수민
 
