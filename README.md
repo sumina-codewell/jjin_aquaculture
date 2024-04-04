@@ -1,4 +1,4 @@
-<img src="https://capsule-render.vercel.app/api?type=waving&color=3595FF&height=30&section=header&text=쭈꾸미 양식장&fontSize=30" />
+![header](https://capsule-render.vercel.app/api?type=waving&color=#3595FF&height=300&section=header&text=쭈꾸미%20양식장&fontSize=90)
 # 쭈꾸미 양식장
 
 ## 익명성을 보장하는 게시판 개발
@@ -12,6 +12,7 @@
    - Backend : Python, Flask
    - Frontend : HTML, Java Script, CSS, Boot Strap
    - DB : SQLite
+
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=sumina-codewell)](https://github.com/anuraghazra/github-readme-stats)
 
 ___
