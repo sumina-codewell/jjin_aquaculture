@@ -16,9 +16,8 @@
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=sumina-codewell)](https://github.com/anuraghazra/github-readme-stats)
 
 4. 협업툴
-(https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=whit)%20(https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
+   - ![js](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=whit)%20(https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
    
 ___
 
-
-![footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=210section=footer)
+![footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=210&section=footer)
