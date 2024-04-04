@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
+from datetime import datetime, timezone
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__)) #pwd 역할
 print(basedir)
@@ -23,7 +24,7 @@ class Comment(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
     content = db.Column(db.Text)
     author = db.Column(db.String(100))
-    created_at = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     comment_pw = db.Column(db.Integer, nullable=False)
 
 
@@ -62,7 +63,13 @@ def write_comment(post_id):
     new_comment = Comment(content=comment_content, author=comment_author, post=post)
     db.session.add(new_comment)
     db.session.commit()
-    return redirect(url_for('main'))
+    return redirect('show_post', post_id=post_id)
+
+@app.route('/post/<int:post_id>')
+def show_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    comments = Comment.query.filter_by(post=post).all()
+    return render_template('post.html', post=post, comments=comments)
 
 #reply 페이지 이동 라우트
 @app.route("/reply/")
