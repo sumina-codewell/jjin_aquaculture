@@ -1,5 +1,9 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en">
+=======
+<html lang="ko">
+>>>>>>> f880749cdbae063764ca503320e563eead762421
 
 <head>
     <meta charset="utf-8">
@@ -144,7 +148,11 @@
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
                 <h2>게시글 작성</h2>
+<<<<<<< HEAD
                 <form method="post" action="{{url_for('write_post')}}">  
+=======
+                <form action="/write_article", method="POST" enctype="multipart/form-data">
+>>>>>>> f880749cdbae063764ca503320e563eead762421
                     <label for="nickname">닉네임:</label>
                     <input type="text" id="nickname" name="nickname"><br><br>
                     <label for="title">제목:</label>
@@ -162,13 +170,18 @@
                     <label for="image">이미지 업로드:</label>
                     <input type="file" id="image" name="image" style="font-family: 'HakgyoansimWoojuR';"><br><br>
 
+<<<<<<< HEAD
                     <button  class="btn btn-outline-primary d-block mx-auto"
+=======
+                    <button type="submit" class="btn btn-outline-primary d-block mx-auto"
+>>>>>>> f880749cdbae063764ca503320e563eead762421
                         onclick="submitForm()">게시</button>
                 </form>
             </div>
         </div>
 
         <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto w-75 pb-5">
+<<<<<<< HEAD
             <div class="col">
                 <a class="detail-link" href="{{ url_for('reply') }}">
                     <div class="card h-100">
@@ -265,6 +278,26 @@
             </div>
         </div>
     </div>
+=======
+            {% for post in posts %}
+                <div class="col">
+                    <div class="card h-100">
+                        <!-- 이미지 표시 -->
+                        {% if post.image_filename %}
+                        <!-- 이미지 파일이 업로드 폴더에 저장된 경우 -->
+                            <img src="{{ url_for('static', filename='image/' + post.image_filename) }}" class="card-img-top" alt="...">
+                            <!-- 'uploads'는 업로드된 이미지가 저장된 폴더의 이름입니다. 실제 경로에 맞게 수정하세요. -->
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.content }}</p>
+                            <p class="card-text"><small class="text-muted">닉네임: {{ post.nickname }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+>>>>>>> f880749cdbae063764ca503320e563eead762421
 
     <div class="container">
         <footer>
