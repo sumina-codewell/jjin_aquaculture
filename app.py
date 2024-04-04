@@ -26,10 +26,9 @@ class Comment(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))  
     parent_comment = db.relationship('Comment', remote_side=[id], backref='child_comments', lazy=True)
 
-@app.route('/')
-def main():
-    posts = Post.query.all()
-    return render_template('jjookkumi.html', posts=posts)
+
+
+
 
 @app.route('/write_post', methods=['POST'])
 def write_post():
@@ -52,6 +51,11 @@ def write_comment(post_id):
     db.session.add(new_comment)
     db.session.commit()
     return redirect(url_for('main'))
+
+@app.route('/')
+def main():
+    posts = Post.query.all()
+    return render_template('jjookkumi.html', post=posts)
 
 @app.route("/reply/")
 def reply():
