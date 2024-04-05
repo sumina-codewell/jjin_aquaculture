@@ -53,9 +53,8 @@
   
 - 각 영역 html 코드구현은 했으나 app.py와 html 파일간에 라우터 문제로 어려움을 겪음
 
- :html과 메소드경로 문제로 수정 후 해결
-  
-- 게시글&댓글 CRUD 구현
+  :arrow_forward: html과 메소드경로 문제로 수정 후 해결
+
   
   :arrow_forward: 
 
