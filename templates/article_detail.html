@@ -48,10 +48,10 @@
         }
 
         .info {
-            display: flex;
             border-top: 1px solid #ccc;
             border-bottom: 1px solid #ccc;
-            padding: 10px 0;
+            padding: 10px;
+            display: flex;
             justify-content: space-between;
             font-size: 15px;
             font-family: 'HakgyoansimWoojuR', sans-serif;
@@ -75,6 +75,16 @@
         .comments {
             font-size: 20px;
             font-family: 'TTHakgyoansimKossuyeomR', sans-serif;
+        }
+
+        .addcomment {
+            font-size: 15px;
+            font-family: 'HakgyoansimWoojuR', sans-serif;
+        }
+
+        .comment-list {
+            font-family: 'HakgyoansimWoojuR', sans-serif;
+            margin-bottom: 20px;
         }
 
         table {
@@ -267,48 +277,54 @@
                         <div id="new-title">{{ article.title }}</dib>
                     </tr>
                     {% if article.image_filename %}
+                    <tr>
                         <div class="content">
                             <img src="{{ url_for('static', filename='image/' + article.image_filename) }}"
                                 alt="{{ article.title }}"><br>
+                            {% endif %}
                             <textarea style="width: 100%; height: 200px; font-size: 16px;" id="new_content"
                                 name="new_content" required>{{ article.content }}</textarea>
                         </div>
-
-                    <div class="info">
-                        {% endif %}
-                        <dl>
-                            <dt>글쓴이</dt>
-                            <input type="text" id="new_nickname" name="new_nickname" value="{{ article.nickname }}"
-                                required>
-                        </dl>
-                        <dl>
-                            <dt>기분</dt>
-                            <select id="mood" name="mood" style="font-family: 'HakgyoansimWoojuR';"
-                                onchange="displayEmoji()">
-                                <option value="happy" {% if article.mood=='happy' %}selected{% endif %}>HAPPY😊</option>
-                                <option value="sad" {% if article.mood=='sad' %}selected{% endif %}>SAD😢</option>
-                                <option value="angry" {% if article.mood=='angry' %}selected{% endif %}>ANGRY😠</option>
-                                <option value="scared" {% if article.mood=='scared' %}selected{% endif %}>SCARED😨
-                                </option>
-                                <option value="excited" {% if article.mood=='excited' %}selected{% endif %}>EXCITED😄
-                                </option>
-                            </select>
-                        </dl>
-                    </div>
-
-                    <dt colspan="2">
-                        <!-- <form id="deleteForm" action="/delete_article/{{ article.id }}" method="post"
-                                onsubmit="return confirmDelete()"">
-                                    <input type=" hidden" id="article_id_delete" name="article_id"
-                                value="{{ article.id }}"> -->
-                        <input type="password" id="article_pw_delete" name="article_pw" required
-                            placeholder="비밀번호를 입력하세요">
-                        <button type="button" onclick="editArticle()">수정</button>
-                        <div class="row">
-                            <div class="col">
-                                <button type="submit">삭제</button>
-                            </div>
+                        <div class="info">
+                            <dl>
+                                <dt>글쓴이</dt>
+                                <input type="text" id="new_nickname" name="new_nickname" value="{{ article.nickname }}"
+                                    required>
+                            </dl>
+                            <dl>
+                                <dt>기분</dt>
+                                <select id="mood" name="mood" style="font-family: 'HakgyoansimWoojuR';"
+                                    onchange="displayEmoji()">
+                                    <option value="happy" {% if article.mood=='happy' %}selected{% endif %}>HAPPY😊
+                                    </option>
+                                    <option value="sad" {% if article.mood=='sad' %}selected{% endif %}>SAD😢</option>
+                                    <option value="angry" {% if article.mood=='angry' %}selected{% endif %}>ANGRY😠
+                                    </option>
+                                    <option value="scared" {% if article.mood=='scared' %}selected{% endif %}>SCARED😨
+                                    </option>
+                                    <option value="excited" {% if article.mood=='excited' %}selected{% endif %}>
+                                        EXCITED😄
+                                    </option>
+                                </select>
+                            </dl>
+                            <dl>
+                                <dt colspan="2">
+                                    <!-- <form id="deleteForm" action="/delete_article/{{ article.id }}" method="post"
+                                        onsubmit="return confirmDelete()"">
+                                            <input type=" hidden" id="article_id_delete" name="article_id"
+                                        value="{{ article.id }}"> -->
+                                    <input type="password" id="article_pw_delete" name="article_pw" required
+                                        placeholder="비밀번호를 입력하세요">
+                                    <button type="button" onclick="editArticle()">수정</button>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="submit">삭제</button>
+                                        </div>
+                                    </div>
+                            </dl>
                         </div>
+
+
         </form>
         </dt>
     </div>
@@ -323,7 +339,7 @@
 
     <!-- 댓글 섹션 -->
     <h2 class="comments">댓글</h2>
-    <table>
+    <table class="comment-list">
         <thead>
             <tr>
                 <th>내용</th>
@@ -357,7 +373,7 @@
 
     <form action="{{ url_for('write_comment', article_id=article.id) }}" method="post">
         <table>
-            <tbody>
+            <tbody class="addcomment">
                 <tr>
                     <th><label for="comment_content">댓글 내용:</label></th>
                     <td><textarea id="comment_content" name="comment_content" required></textarea></td>
