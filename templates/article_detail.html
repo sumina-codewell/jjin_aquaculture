@@ -156,7 +156,7 @@
         }
     }
 
-    function confirmDelete() {
+    function confirmCommentDelete() {
         // 사용자가 삭제를 확인하는 경우 true를 반환합니다.
         return confirm("댓글을 삭제하시겠습니까?");
     }
@@ -362,7 +362,7 @@
                 <td>
                     <!-- 댓글 삭제를 위한 폼 -->
                     <form action="{{ url_for('delete_comment', comment_id=comment.id) }}" method="post"
-                        onsubmit="return confirmDelete()">
+                        onsubmit="return confirmCommentDelete()">
                         <input type="password" name="comment_pw" required placeholder="비밀번호">
                         <button type="submit">삭제</button>
                     </form>
