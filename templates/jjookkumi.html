@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="utf-8">
@@ -144,7 +144,7 @@
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
                 <h2>게시글 작성</h2>
-                <form method="post" action="{{url_for('write_post')}}">  
+                <form action="/write_article", method="POST" enctype="multipart/form-data">
                     <label for="nickname">닉네임:</label>
                     <input type="text" id="nickname" name="nickname"><br><br>
                     <label for="title">제목:</label>
@@ -161,14 +161,16 @@
                     </select><br><br>
                     <label for="image">이미지 업로드:</label>
                     <input type="file" id="image" name="image" style="font-family: 'HakgyoansimWoojuR';"><br><br>
-
-                    <button  class="btn btn-outline-primary d-block mx-auto"
+                    <label for="pw">비밀번호:</label>
+                    <input type="password" id="pw" name="pw" required></td>
+                    <button type="submit" class="btn btn-outline-primary d-block mx-auto"
                         onclick="submitForm()">게시</button>
                 </form>
             </div>
         </div>
 
         <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto w-75 pb-5">
+<<<<<<< HEAD
             {% for post_data in post %}
             <div class="col">
                 <div class="card h-100">
@@ -195,6 +197,26 @@
         </div>
         
     </div>
+=======
+            {% for article in articles %}
+                <div class="col">
+                    <div class="card h-100">
+                        <!-- 이미지 표시 -->
+                        {% if article.image_filename %}
+                        <!-- 이미지 파일이 업로드 폴더에 저장된 경우 -->
+                            <img src="{{ url_for('static', filename='image/' + article.image_filename) }}" class="card-img-top" alt="...">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ article.title }}</h5>
+                            <p class="card-text">{{ article.content }}</p>
+                            <p class="card-text"><small class="text-muted">닉네임: {{ article.nickname }}</small></p>
+                            <a href="{{ url_for('article_detail', article_id=article.id) }}" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+>>>>>>> b49b76f579f2054400cbafdbe784f9568e459458
 
     <div class="container">
         <footer>
