@@ -1,252 +1,184 @@
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <title>{{ article.title }} - 상세보기</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th, td {
-                border: 1px solid #ddd;
-                padding: 8px;
-                text-align: left;
-            }
-            th {
-                background-color: #f2f2f2;
-            }
-            /* 이미지 최대 너비를 페이지 너비에 맞추되 원본 크기를 넘지 않도록 설정 */
-            img {
-                max-width: 100%;
-                height: auto; /* 이미지의 비율을 유지하면서 너비에 맞추어 조절 */
-            }
-        </style>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ article.title }} - 상세보기</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        /* 이미지 최대 너비를 페이지 너비에 맞추되 원본 크기를 넘지 않도록 설정 */
+        img {
+            max-width: 100%;
+            height: auto; /* 이미지의 비율을 유지하면서 너비에 맞추어 조절 */
+        }
+    </style>
+</head>
 
-    <script>
-        function editComment(commentId) {
-            // 댓글 수정을 위한 비밀번호 입력
-            var password = prompt("댓글 수정을 위한 비밀번호를 입력하세요:");
-            if (!password) {
-                alert('비밀번호 입력이 취소되었습니다.');
-                return; // 비밀번호 입력이 없으면 함수 종료
-            }
-            
-            // 새로운 댓글 내용 입력
-            var newContent = prompt("댓글을 수정하세요:");
-            if (newContent) {
-                // Fetch API를 사용하여 서버에 댓글 수정 요청
-                fetch('/edit_comment/' + commentId, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        comment_pw: password,
-                        comment_content: newContent
-                    }),
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    } else {
-                        throw new Error('댓글 수정에 실패했습니다.');
-                    }
-                })
-                .then(data => {
-                    // 서버로부터의 응답 처리
-                    alert('댓글이 수정되었습니다.');
-                    window.location.reload(); // 페이지 새로고침
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert(error.message);
-                });
-            } else {
-                alert('댓글 수정이 취소되었습니다.');
-            }
+<script>
+    function editComment(commentId) {
+        // 댓글 수정을 위한 비밀번호 입력
+        var password = prompt("댓글 수정을 위한 비밀번호를 입력하세요:");
+        if (!password) {
+            alert('비밀번호 입력이 취소되었습니다.');
+            return; // 비밀번호 입력이 없으면 함수 종료
         }
-    
-        function confirmDelete() {
-            // 사용자가 삭제를 확인하는 경우 true를 반환합니다.
-            return confirm("댓글을 삭제하시겠습니까?");
-        }
-    </script>
-    
-    <script>
-        function editArticle() {
-            var password = prompt("게시글 수정을 위한 비밀번호를 입력하세요:");
-            if (password) {
-                // 수정할 값 가져오기
-                var newTitle = document.getElementById("new_title").value;
-                var newContent = document.getElementById("new_content").value;
-                var newMood = document.getElementById("new_mood").value;
-                var newNickname = document.getElementById("new_nickname").value;  // 닉네임 변경
         
-                // 모든 필드가 비어 있지 않은지 확인하고 수정할 값이 없는 경우 이전 값 사용
-                if (!newTitle) {
-                    newTitle = "{{ article.title }}";
+        // 새로운 댓글 내용 입력
+        var newContent = prompt("댓글을 수정하세요:");
+        if (newContent) {
+            // Fetch API를 사용하여 서버에 댓글 수정 요청
+            fetch('/edit_comment/' + commentId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    comment_pw: password,
+                    comment_content: newContent
+                }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('댓글 수정에 실패했습니다.');
                 }
-                if (!newContent) {
-                    newContent = "{{ article.content }}";
-                }
-                if (!newMood) {
-                    newMood = "{{ article.mood }}";
-                }
-                if (!newNickname) {
-                    newNickname = "{{ article.nickname }}";
-                }
-        
-                // 수정 요청을 서버에 보냄
-                fetch('/edit_article', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        article_id: "{{ article.id }}",
-                        article_pw: password,
-                        title: newTitle,
-                        content: newContent,
-                        mood: newMood,
-                        nickname: newNickname
-                    }),
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    } else {
-                        response.text().then(text => {
-                            throw new Error(text || '게시글 수정에 실패했습니다.');
-                        });
-                    }
-                })
-                .then(data => {
-                    alert('게시글이 수정되었습니다.');
-                    window.location.reload(); // 페이지 새로고침
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert(error.message);
-                });
-            } else {
-                alert('비밀번호 입력이 취소되었습니다.');
-            }
+            })
+            .then(data => {
+                // 서버로부터의 응답 처리
+                alert('댓글이 수정되었습니다.');
+                window.location.reload(); // 페이지 새로고침
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error.message);
+            });
+        } else {
+            alert('댓글 수정이 취소되었습니다.');
         }
-    </script>
+    }
 
-    <script>
-        function confirmDelete() {
-            var password = document.getElementById('article_pw_delete').value;
-            if(password) {
-                return confirm('게시글을 정말 삭제하시겠습니까?');
-            } else {
-                alert('비밀번호를 입력해야 게시글을 삭제할 수 있습니다.');
-                return false;
-            }
+    function confirmDelete() {
+        var password = document.getElementById('article_pw_delete').value;
+        if(password) {
+            return confirm('게시글을 정말 삭제하시겠습니까?');
+        } else {
+            alert('비밀번호를 입력해야 게시글을 삭제할 수 있습니다.');
+            return false;
         }
-    </script>
+    }
+</script>
 
-    <body>
-    <a href="{{ url_for('main') }}">홈</a>
-    <div class="container">
-        <form id="editForm" action="{{ url_for('edit_article') }}" method="post">
-            <input type="hidden" id="article_id" name="article_id" value="{{ article.id }}">
-            <table>
-                <tbody>
-                    <tr>
-                        <th>제목</th>
-                        <td><input type="text" id="new_title" name="new_title" value="{{ article.title }}" required></td>
-                    </tr>
-                    {% if article.image_filename %}
-                    <tr>
-                        <th>이미지</th>
-                        <td><img src="{{ url_for('static', filename='image/' + article.image_filename) }}" alt="{{ article.title }}"></td>
-                    </tr>
-                    {% endif %}
-                    <tr>
-                        <th>내용</th>
-                        <td><textarea id="new_content" name="new_content" required>{{ article.content }}</textarea></td>
-                    </tr>
-                    <tr>
-                        <th>닉네임</th>
-                        <td><input type="text" id="new_nickname" name="new_nickname" value="{{ article.nickname }}" required></td>
-                    </tr>
-                    <tr>
-                        <th>기분</th>
-                        <td><input type="text" id="new_mood" name="new_mood" value="{{ article.mood }}"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><button type="button" onclick="editArticle()">수정</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <!-- <input type="password" id="article_pw" name="article_pw" required placeholder="비밀번호"> -->
-        </form>
-    </div>
-    <!-- 게시글 삭제 폼 -->
-    <form id="deleteForm" action="/delete_article/{{ article.id }}" method="post" onsubmit="return confirmDelete()"">
-        <input type="hidden" id="article_id_delete" name="article_id" value="{{ article.id }}">
-        <input type="password" id="article_pw_delete" name="article_pw" required placeholder="비밀번호">
-        <button type="submi">삭제</button>
-    </form>
-
-    <!-- 댓글 섹션 -->
-    <h2>댓글</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>내용</th>
-                <th>작성자</th>
-                <th>시간</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for comment in article.comments %}
-            <tr>
-                <td>{{ comment.content }}</td>
-                <td>{{ comment.author }}</td>
-                <td>{{ comment.created_at }}</td>
-                <td>
-                    <!-- 댓글 수정을 위한 JavaScript 함수 호출 버튼 -->
-                    <button onclick="editComment({{ comment.id }})">수정</button>
-                </td>
-                <td>
-                    <!-- 댓글 삭제를 위한 폼 -->
-                    <form action="{{ url_for('delete_comment', comment_id=comment.id) }}" method="post" onsubmit="return confirmDelete()">
-                        <input type="password" name="comment_pw" required placeholder="비밀번호">
-                        <button type="submit">삭제</button>
-                    </form>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <form action="{{ url_for('write_comment', article_id=article.id) }}" method="post">
+<body>
+<a href="{{ url_for('main') }}">홈</a>
+<div class="container">
+    <form id="editForm" action="{{ url_for('edit_article') }}" method="post">
+        <input type="hidden" id="article_id" name="article_id" value="{{ article.id }}">
         <table>
             <tbody>
                 <tr>
-                    <th><label for="comment_content">댓글 내용:</label></th>
-                    <td><textarea id="comment_content" name="comment_content" required></textarea></td>
+                    <th>제목</th>
+                    <td><input type="text" id="new_title" name="new_title" value="{{ article.title }}" required></td>
+                </tr>
+                {% if article.image_filename %}
+                <tr>
+                    <th>이미지</th>
+                    <td><img src="{{ url_for('static', filename='image/' + article.image_filename) }}" alt="{{ article.title }}"></td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <th>내용</th>
+                    <td><textarea id="new_content" name="new_content" required>{{ article.content }}</textarea></td>
                 </tr>
                 <tr>
-                    <th><label for="comment_author">작성자:</label></th>
-                    <td><input type="text" id="comment_author" name="comment_author" required></td>
+                    <th>닉네임</th>
+                    <td><input type="text" id="new_nickname" name="new_nickname" value="{{ article.nickname }}" required></td>
                 </tr>
                 <tr>
-                    <th><label for="comment_pw">비밀번호:</label></th>
-                    <td><input type="password" id="comment_pw" name="comment_pw" required></td>
+                    <th>기분</th>
+                    <td><input type="text" id="new_mood" name="new_mood" value="{{ article.mood }}"></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><button type="submit">댓글 작성</button></td>
+                    <td colspan="2"><button type="button" onclick="editArticle()">수정</button></td>
                 </tr>
             </tbody>
         </table>
+        <!-- <input type="password" id="article_pw" name="article_pw" required placeholder="비밀번호"> -->
     </form>
+</div>
+<!-- 게시글 삭제 폼 -->
+<form id="deleteForm" action="/delete_article/{{ article.id }}" method="post" onsubmit="return confirmDelete()">
+    <input type="hidden" id="article_id_delete" name="article_id" value="{{ article.id }}">
+    <input type="password" id="article_pw_delete" name="article_pw" required placeholder="비밀번호">
+    <button type="submit">삭제</button>
+</form>
+
+<!-- 댓글 섹션 -->
+<h2>댓글</h2>
+<table>
+    <thead>
+        <tr>
+            <th>내용</th>
+            <th>작성자</th>
+            <th>시간</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for comment in article.comments %}
+        <tr>
+            <td>{{ comment.content }}</td>
+            <td>{{ comment.author }}</td>
+            <td>{{ comment.created_at }}</td>
+            <td>
+                <!-- 댓글 수정을 위한 JavaScript 함수 호출 버튼 -->
+                <button onclick="editComment({{ comment.id }})">수정</button>
+            </td>
+            <td>
+                <!-- 댓글 삭제를 위한 폼 -->
+                <form action="{{ url_for('delete_comment', comment_id=comment.id) }}" method="post" onsubmit="return confirmDelete()">
+                    <input type="password" name="comment_pw" required placeholder="비밀번호">
+                    <button type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<form action="{{ url_for('write_comment', article_id=article.id) }}" method="post">
+    <table>
+        <tbody>
+            <tr>
+                <th><label for="comment_content">댓글 내용:</label></th>
+                <td><textarea id="comment_content" name="comment_content" required></textarea></td>
+            </tr>
+            <tr>
+                <th><label for="comment_author">작성자:</label></th>
+                <td><input type="text" id="comment_author" name="comment_author" required></td>
+            </tr>
+            <tr>
+                <th><label for="comment_pw">비밀번호:</label></th>
+                <td><input type="password" id="comment_pw" name="comment_pw" required></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">댓글 작성</button></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
 
 </div>
 

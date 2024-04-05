@@ -129,7 +129,8 @@
             <h1 class="display-5 text-body-emphasis">쭈꾸미 양식장</h1>
         </div>
         <div class="col-lg-6 mx-auto">
-            <div class="row-cols-1 row-cols-md-5 d-block mx-auto w-25 pb-5 text-end" style="margin-left: 5px;">
+            <!-- 수정된 부분 -->
+            <div class="row-cols-1 row-cols-md-5 d-block mx-auto w-15 pb-5 text-end" style="margin-left: 5px;">
                 <!-- Button trigger modal -->
                 <button onclick="openModal()" type="button" class="btn btn-danger" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">
@@ -143,123 +144,4 @@
             <!-- 모달 내용 -->
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
-                <h2>게시글 작성</h2>
-                <form action="/write_article", method="POST" enctype="multipart/form-data">
-                    <label for="nickname">닉네임:</label>
-                    <input type="text" id="nickname" name="nickname"><br><br>
-                    <label for="title">제목:</label>
-                    <input type="text" id="title" name="title"><br><br>
-                    <label for="content">내용:</label><br>
-                    <textarea id="content" name="content" rows="4" cols="50"></textarea><br><br>
-                    <label for="mood">오늘의 기분:</label>
-                    <select id="mood" name="mood" style="font-family: 'HakgyoansimWoojuR';">
-                        <option value="happy">HAPPY😊</option>
-                        <option value="sad">SAD😢</option>
-                        <option value="angry">ANGRY😠</option>
-                        <option value="scared">SCARED😨</option>
-                        <option value="excited">EXCITED😄</option>
-                    </select><br><br>
-                    <label for="image">이미지 업로드:</label>
-                    <input type="file" id="image" name="image" style="font-family: 'HakgyoansimWoojuR';"><br><br>
-                    <label for="pw">비밀번호:</label>
-                    <input type="password" id="pw" name="pw" required></td>
-                    <button type="submit" class="btn btn-outline-primary d-block mx-auto"
-                        onclick="submitForm()">게시</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="row row-cols-1 row-cols-md-2 g-4 mx-auto w-75 pb-5">
-<<<<<<< HEAD
-            {% for post_data in post %}
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ post_data.title }}</h5>
-                        <div class="user-info">
-                            <div class="user-img">
-                                <span>
-                                    <img src="jjookkumi.jpg" style="width:50px; height:50px; border-radius:60%;"
-                                        class="card-img-bottom" alt="...">
-                                </span>
-                            </div>
-                            <div class="user-nick my-auto mx-auto w-75 pb-50">
-                                <span>{{ post_data.nickname }}</span>
-                            </div>
-                        </div>
-                        <p class="card-text">{{ post_data.content }}</p>
-                        <p class="card-text">{{ post_data.mood }}</p>
-                    </div>
-                    <img src="{{ post_data.image }}" class="card-img-bottom" alt="...">
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        
-    </div>
-=======
-            {% for article in articles %}
-                <div class="col">
-                    <div class="card h-100">
-                        <!-- 이미지 표시 -->
-                        {% if article.image_filename %}
-                        <!-- 이미지 파일이 업로드 폴더에 저장된 경우 -->
-                            <img src="{{ url_for('static', filename='image/' + article.image_filename) }}" class="card-img-top" alt="...">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ article.title }}</h5>
-                            <p class="card-text">{{ article.content }}</p>
-                            <p class="card-text"><small class="text-muted">닉네임: {{ article.nickname }}</small></p>
-                            <a href="{{ url_for('article_detail', article_id=article.id) }}" class="stretched-link"></a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
->>>>>>> b49b76f579f2054400cbafdbe784f9568e459458
-
-    <div class="container">
-        <footer>
-            <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-                <p>© 2023 Company, Inc. All rights reserved.</p>
-                <ul class="list-unstyled d-flex">
-                    <li class="ms-3"><a class="link-body-emphasis" href="https://www.youtube.com/@SpartaCodingClub"><i
-                                class="bi bi-youtube"></i></a></li>
-                    <li class="ms-3"><a class="link-body-emphasis" href="https://www.instagram.com/spartacodingclub/"><i
-                                class="bi bi-instagram"></i></a></li>
-                    <li class="ms-3"><a class="link-body-emphasis" href="https://spartacodingclub.kr/blog"><i
-                                class="bi bi-postcard"></i></a></li>
-                </ul>
-            </div>
-        </footer>
-    </div>
-
-    <script>
-        // 게시 버튼 클릭 시 실행되는 함수
-        function submitForm() {
-            // 여기에 게시 버튼을 눌렀을 때 수행할 동작을 작성하세요
-            alert('게시되었습니다!');
-            closeModal(); // 모달 닫기
-        }
-
-        // 모달 창 열기
-        function openModal() {
-            document.getElementById("myModal").style.display = "block";
-        }
-
-        // 모달 창 닫기
-        function closeModal() {
-            document.getElementById("myModal").style.display = "none";
-        }
-
-        // 사용자가 모달 외부를 클릭할 때 모달 창이 닫히도록
-        window.onclick = function (event) {
-            var modal = document.getElementById("myModal");
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
-</body>
-
-</html>
+                <h2>게시글 작성</h2
