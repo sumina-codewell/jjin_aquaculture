@@ -1,53 +1,130 @@
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <title>{{ article.title }} - 상세보기</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th, td {
-                border: 1px solid #ddd;
-                padding: 8px;
-                text-align: left;
-            }
-            th {
-                background-color: #f2f2f2;
-            }
-            /* 이미지 최대 너비를 페이지 너비에 맞추되 원본 크기를 넘지 않도록 설정 */
-            img {
-                max-width: 100%;
-                height: auto; /* 이미지의 비율을 유지하면서 너비에 맞추어 조절 */
-            }
-        </style>
-    </head>
+<!DOCTYPE html>
+<html lang="en">
 
-    <script>
-        function editComment(commentId) {
-            // 댓글 수정을 위한 비밀번호 입력
-            var password = prompt("댓글 수정을 위한 비밀번호를 입력하세요:");
-            if (!password) {
-                alert('비밀번호 입력이 취소되었습니다.');
-                return; // 비밀번호 입력이 없으면 함수 종료
-            }
-            
-            // 새로운 댓글 내용 입력
-            var newContent = prompt("댓글을 수정하세요:");
-            if (newContent) {
-                // Fetch API를 사용하여 서버에 댓글 수정 요청
-                fetch('/edit_comment/' + commentId, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        comment_pw: password,
-                        comment_content: newContent
-                    }),
-                })
+<head>
+    <meta charset="UTF-8">
+    <title>{{ article.title }} - 상세보기</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        @font-face {
+            font-family: 'TTHakgyoansimKossuyeomR';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimKossuyeomR.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'HakgyoansimWoojuR';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/HakgyoansimWoojuR.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        #post-title {
+            padding: 15px;
+            justify-content: center;
+            color: rgb(198, 15, 15);
+            font-size: 30px;
+            font-family: 'TTHakgyoansimKossuyeomR', sans-serif;
+            text-decoration: none;
+            align-items: center;
+            display: flex;
+        }
+
+        #new-title {
+            padding: 15px;
+            font-size: 20px;
+            font-family: 'TTHakgyoansimKossuyeomR', sans-serif;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .content {
+            padding: 15px;
+            font-size: 16px;
+            font-family: 'HakgyoansimWoojuR', sans-serif;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .info {
+            display: flex;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            justify-content: space-between;
+            font-size: 15px;
+            font-family: 'HakgyoansimWoojuR', sans-serif;
+        }
+
+        .info dl {
+            flex: 1;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .col {
+            align-items: center;
+            display: flex;
+            justify-content: end;
+        }
+
+        .comments {
+            font-size: 20px;
+            font-family: 'TTHakgyoansimKossuyeomR', sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* 이미지 최대 너비를 페이지 너비에 맞추되 원본 크기를 넘지 않도록 설정 */
+        img {
+            max-width: 100%;
+            height: auto;
+            /* 이미지의 비율을 유지하면서 너비에 맞추어 조절 */
+        }
+    </style>
+</head>
+
+<script>
+    function editComment(commentId) {
+        // 댓글 수정을 위한 비밀번호 입력
+        var password = prompt("댓글 수정을 위한 비밀번호를 입력하세요:");
+        if (!password) {
+            alert('비밀번호 입력이 취소되었습니다.');
+            return; // 비밀번호 입력이 없으면 함수 종료
+        }
+
+        // 새로운 댓글 내용 입력
+        var newContent = prompt("댓글을 수정하세요:");
+        if (newContent) {
+            // Fetch API를 사용하여 서버에 댓글 수정 요청
+            fetch('/edit_comment/' + commentId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    comment_pw: password,
+                    comment_content: newContent
+                }),
+            })
                 .then(response => {
                     if (response.ok) {
                         return response.text();
@@ -64,56 +141,56 @@
                     console.error('Error:', error);
                     alert(error.message);
                 });
-            } else {
-                alert('댓글 수정이 취소되었습니다.');
+        } else {
+            alert('댓글 수정이 취소되었습니다.');
+        }
+    }
+
+    function confirmDelete() {
+        // 사용자가 삭제를 확인하는 경우 true를 반환합니다.
+        return confirm("댓글을 삭제하시겠습니까?");
+    }
+</script>
+
+<script>
+    function editArticle() {
+        var password = prompt("게시글 수정을 위한 비밀번호를 입력하세요:");
+        if (password) {
+            // 수정할 값 가져오기
+            var newTitle = document.getElementById("new_title").value;
+            var newContent = document.getElementById("new_content").value;
+            var newMood = document.getElementById("new_mood").value;
+            var newNickname = document.getElementById("new_nickname").value;  // 닉네임 변경
+
+            // 모든 필드가 비어 있지 않은지 확인하고 수정할 값이 없는 경우 이전 값 사용
+            if (!newTitle) {
+                newTitle = "{{ article.title }}";
             }
-        }
-    
-        function confirmDelete() {
-            // 사용자가 삭제를 확인하는 경우 true를 반환합니다.
-            return confirm("댓글을 삭제하시겠습니까?");
-        }
-    </script>
-    
-    <script>
-        function editArticle() {
-            var password = prompt("게시글 수정을 위한 비밀번호를 입력하세요:");
-            if (password) {
-                // 수정할 값 가져오기
-                var newTitle = document.getElementById("new_title").value;
-                var newContent = document.getElementById("new_content").value;
-                var newMood = document.getElementById("new_mood").value;
-                var newNickname = document.getElementById("new_nickname").value;  // 닉네임 변경
-        
-                // 모든 필드가 비어 있지 않은지 확인하고 수정할 값이 없는 경우 이전 값 사용
-                if (!newTitle) {
-                    newTitle = "{{ article.title }}";
-                }
-                if (!newContent) {
-                    newContent = "{{ article.content }}";
-                }
-                if (!newMood) {
-                    newMood = "{{ article.mood }}";
-                }
-                if (!newNickname) {
-                    newNickname = "{{ article.nickname }}";
-                }
-        
-                // 수정 요청을 서버에 보냄
-                fetch('/edit_article', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        article_id: "{{ article.id }}",
-                        article_pw: password,
-                        title: newTitle,
-                        content: newContent,
-                        mood: newMood,
-                        nickname: newNickname
-                    }),
-                })
+            if (!newContent) {
+                newContent = "{{ article.content }}";
+            }
+            if (!newMood) {
+                newMood = "{{ article.mood }}";
+            }
+            if (!newNickname) {
+                newNickname = "{{ article.nickname }}";
+            }
+
+            // 수정 요청을 서버에 보냄
+            fetch('/edit_article', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    article_id: "{{ article.id }}",
+                    article_pw: password,
+                    title: newTitle,
+                    content: newContent,
+                    mood: newMood,
+                    nickname: newNickname
+                }),
+            })
                 .then(response => {
                     if (response.ok) {
                         return response.text();
@@ -131,70 +208,121 @@
                     console.error('Error:', error);
                     alert(error.message);
                 });
-            } else {
-                alert('비밀번호 입력이 취소되었습니다.');
-            }
+        } else {
+            alert('비밀번호 입력이 취소되었습니다.');
         }
-    </script>
+    }
+</script>
 
-    <script>
-        function confirmDelete() {
-            var password = document.getElementById('article_pw_delete').value;
-            if(password) {
-                return confirm('게시글을 정말 삭제하시겠습니까?');
-            } else {
-                alert('비밀번호를 입력해야 게시글을 삭제할 수 있습니다.');
-                return false;
-            }
+<script>
+    function confirmDelete() {
+        var password = document.getElementById('article_pw_delete').value;
+        if (password) {
+            return confirm('게시글을 정말 삭제하시겠습니까?');
+        } else {
+            alert('비밀번호를 입력해야 게시글을 삭제할 수 있습니다.');
+            return false;
         }
-    </script>
+    }
+</script>
 
-    <body>
-    <a href="{{ url_for('main') }}">홈</a>
+<script>
+    function displayEmoji() {
+        var moodSelect = document.getElementById("mood");
+        var selectedMood = moodSelect.options[moodSelect.selectedIndex].value;
+        var emojiDisplay = document.getElementById("emojiDisplay");
+
+        // 선택된 무드에 따라 이모지 변경
+        switch (selectedMood) {
+            case "happy":
+                emojiDisplay.innerText = "😊";
+                break;
+            case "sad":
+                emojiDisplay.innerText = "😢";
+                break;
+            case "angry":
+                emojiDisplay.innerText = "😠";
+                break;
+            case "scared":
+                emojiDisplay.innerText = "😨";
+                break;
+            case "excited":
+                emojiDisplay.innerText = "😄";
+                break;
+            default:
+                emojiDisplay.innerText = "";
+                break;
+        }
+    }
+</script>
+
+<body>
+    <a id="post-title" href="{{ url_for('main') }}">쭈꾸미양식장</a>
     <div class="container">
         <form id="editForm" action="{{ url_for('edit_article') }}" method="post">
             <input type="hidden" id="article_id" name="article_id" value="{{ article.id }}">
             <table>
                 <tbody>
                     <tr>
-                        <th>제목</th>
-                        <td><input type="text" id="new_title" name="new_title" value="{{ article.title }}" required></td>
+                        <div id="new-title">{{ article.title }}</dib>
                     </tr>
                     {% if article.image_filename %}
-                    <tr>
-                        <th>이미지</th>
-                        <td><img src="{{ url_for('static', filename='image/' + article.image_filename) }}" alt="{{ article.title }}"></td>
-                    </tr>
-                    {% endif %}
-                    <tr>
-                        <th>내용</th>
-                        <td><textarea id="new_content" name="new_content" required>{{ article.content }}</textarea></td>
-                    </tr>
-                    <tr>
-                        <th>닉네임</th>
-                        <td><input type="text" id="new_nickname" name="new_nickname" value="{{ article.nickname }}" required></td>
-                    </tr>
-                    <tr>
-                        <th>기분</th>
-                        <td><input type="text" id="new_mood" name="new_mood" value="{{ article.mood }}"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><button type="button" onclick="editArticle()">수정</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <!-- <input type="password" id="article_pw" name="article_pw" required placeholder="비밀번호"> -->
+                        <div class="content">
+                            <img src="{{ url_for('static', filename='image/' + article.image_filename) }}"
+                                alt="{{ article.title }}"><br>
+                            <textarea style="width: 100%; height: 200px; font-size: 16px;" id="new_content"
+                                name="new_content" required>{{ article.content }}</textarea>
+                        </div>
+
+                    <div class="info">
+                        {% endif %}
+                        <dl>
+                            <dt>글쓴이</dt>
+                            <input type="text" id="new_nickname" name="new_nickname" value="{{ article.nickname }}"
+                                required>
+                        </dl>
+                        <dl>
+                            <dt>기분</dt>
+                            <select id="mood" name="mood" style="font-family: 'HakgyoansimWoojuR';"
+                                onchange="displayEmoji()">
+                                <option value="happy" {% if article.mood=='happy' %}selected{% endif %}>HAPPY😊</option>
+                                <option value="sad" {% if article.mood=='sad' %}selected{% endif %}>SAD😢</option>
+                                <option value="angry" {% if article.mood=='angry' %}selected{% endif %}>ANGRY😠</option>
+                                <option value="scared" {% if article.mood=='scared' %}selected{% endif %}>SCARED😨
+                                </option>
+                                <option value="excited" {% if article.mood=='excited' %}selected{% endif %}>EXCITED😄
+                                </option>
+                            </select>
+                        </dl>
+                    </div>
+
+                    <dt colspan="2">
+                        <!-- <form id="deleteForm" action="/delete_article/{{ article.id }}" method="post"
+                                onsubmit="return confirmDelete()"">
+                                    <input type=" hidden" id="article_id_delete" name="article_id"
+                                value="{{ article.id }}"> -->
+                        <input type="password" id="article_pw_delete" name="article_pw" required
+                            placeholder="비밀번호를 입력하세요">
+                        <button type="button" onclick="editArticle()">수정</button>
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit">삭제</button>
+                            </div>
+                        </div>
         </form>
+        </dt>
+    </div>
+
+    </tbody>
+    </table>
+    <!-- <input type="password" id="article_pw" name="article_pw" required placeholder="비밀번호"> -->
+    </form>
     </div>
     <!-- 게시글 삭제 폼 -->
-    <form id="deleteForm" action="/delete_article/{{ article.id }}" method="post" onsubmit="return confirmDelete()"">
-        <input type="hidden" id="article_id_delete" name="article_id" value="{{ article.id }}">
-        <input type="password" id="article_pw_delete" name="article_pw" required placeholder="비밀번호">
-        <button type="submi">삭제</button>
-    </form>
+
 
     <!-- 댓글 섹션 -->
-    <h2>댓글</h2>
+    <h2 class="comments">댓글</h2>
     <table>
         <thead>
             <tr>
@@ -217,7 +345,8 @@
                 </td>
                 <td>
                     <!-- 댓글 삭제를 위한 폼 -->
-                    <form action="{{ url_for('delete_comment', comment_id=comment.id) }}" method="post" onsubmit="return confirmDelete()">
+                    <form action="{{ url_for('delete_comment', comment_id=comment.id) }}" method="post"
+                        onsubmit="return confirmDelete()">
                         <input type="password" name="comment_pw" required placeholder="비밀번호">
                         <button type="submit">삭제</button>
                     </form>
@@ -248,7 +377,8 @@
         </table>
     </form>
 
-</div>
+    </div>
 
 </body>
+
 </html>
